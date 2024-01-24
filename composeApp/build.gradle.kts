@@ -32,6 +32,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -40,12 +41,13 @@ kotlin {
             implementation(compose.ui)
             @OptIn(ExperimentalComposeLibrary::class)
             implementation(compose.components.resources)
-            // Please do remember to add compose.foundation and compose.animation
             api(compose.foundation)
             api(compose.animation)
             api(libs.precompose)
-            api(libs.precompose.viewmodel) // For ViewModel intergration
-            api(libs.tlaster.precompose.koin) // For Koin intergration
+            api(libs.precompose.viewmodel)
+            api(libs.tlaster.precompose.koin)
+            api(libs.insert.koin.koin.core)
+            api(libs.koin.compose)
         }
     }
 }

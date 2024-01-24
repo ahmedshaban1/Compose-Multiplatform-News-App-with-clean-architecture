@@ -34,6 +34,7 @@ import navigation.Screen
 import navigation.SetupNavigation
 import navigation.bottomNavigationScreens
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.koin.compose.KoinContext
 import theme.ComposeKMPTheme
 
 @Composable
@@ -43,32 +44,34 @@ fun App() {
         var currentRoute: String by remember {
             mutableStateOf("")
         }
-        ComposeKMPTheme {
-            LaunchedEffect(true) {
-                navigator.currentEntry.collect {
-                    currentRoute = it?.route?.route ?: ""
-                }
-            }
-
-            Scaffold(
-                modifier = Modifier.padding(16.dp),
-                bottomBar = {
-                    val isBottomNavigationItem =
-                        bottomNavigationScreens.findLast { it.screen.route == currentRoute }
-                    AnimatedVisibility(
-                        visible = isBottomNavigationItem != null,
-                        enter = fadeIn() + expandVertically(),
-                        exit = fadeOut() + shrinkVertically()
-                    ) {
-                        CreateAppBottomBar {
-                            navigator.navigate(route = it)
-                        }
+        KoinContext {
+            ComposeKMPTheme {
+                LaunchedEffect(true) {
+                    navigator.currentEntry.collect {
+                        currentRoute = it?.route?.route ?: ""
                     }
+                }
 
-                }) {
-                SetupNavigation(navigator)
+                Scaffold(
+                    modifier = Modifier.padding(16.dp),
+                    bottomBar = {
+                        val isBottomNavigationItem =
+                            bottomNavigationScreens.findLast { it.screen.route == currentRoute }
+                        AnimatedVisibility(
+                            visible = isBottomNavigationItem != null,
+                            enter = fadeIn() + expandVertically(),
+                            exit = fadeOut() + shrinkVertically()
+                        ) {
+                            CreateAppBottomBar {
+                                navigator.navigate(route = it)
+                            }
+                        }
+
+                    }) {
+                    SetupNavigation(navigator)
+                }
+
             }
-
         }
     }
 }

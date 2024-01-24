@@ -1,4 +1,6 @@
 package screens.home
 
-class HomeViewModel {
+import moe.tlaster.precompose.viewmodel.ViewModel
+
+class HomeViewModel : ViewModel(){
 }
