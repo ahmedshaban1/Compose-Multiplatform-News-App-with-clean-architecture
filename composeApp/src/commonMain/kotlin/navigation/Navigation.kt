@@ -34,7 +34,9 @@ fun SetupNavigation(navigator: Navigator) {
             route = Screen.Details.route,
             navTransition = NavTransition(),
         ) {
-            DetailsScreen()
+            DetailsScreen{
+                navigator.goBack()
+            }
         }
     }
 }
