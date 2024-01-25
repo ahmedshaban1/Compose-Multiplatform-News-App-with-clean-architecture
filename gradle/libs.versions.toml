@@ -14,15 +14,20 @@ compose = "1.5.4"
 compose-compiler = "1.5.8"
 compose-plugin = "1.5.11"
 junit = "4.13.2"
+kamelImage = "0.9.1"
 koinAndroid = "3.5.0"
 koinCompose = "1.1.0"
 koinCore = "3.5.0"
 kotlin = "1.9.21"
+ktorClientContentNegotiation = "2.3.7"
+ktorClientCore = "2.3.7"
 precompose = "1.5.10"
 precomposeKoin = "1.5.10"
+uiToolingPreviewAndroid = "1.5.4"
 
 [libraries]
 insert-koin-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
+kamel-image = { module = "media.kamel:kamel-image", version.ref = "kamelImage" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinCompose" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -40,9 +45,15 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = 
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose" }
+ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientContentNegotiation" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientContentNegotiation" }
+ktor-ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorClientContentNegotiation" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientContentNegotiation" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 precompose-viewmodel = { module = "moe.tlaster:precompose-viewmodel", version.ref = "precompose" }
 tlaster-precompose-koin = { module = "moe.tlaster:precompose-koin", version.ref = "precomposeKoin" }
+androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -1,20 +1,39 @@
 package screens.home
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material.Text
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
+import common_ui.NewsItem
+import model.NewsModel
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(HomeViewModel::class),
-    onNewsClicked: () -> Unit
+    onNewsClicked: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    Text(state, modifier = Modifier.clickable {
-        onNewsClicked()
-    })
+    NewsList(state.news, onNewsClicked)
+
+}
+
+@Composable
+fun NewsList(newsList: List<NewsModel>, onNewsClicked: (String) -> Unit) {
+    AnimatedVisibility(
+        newsList.isNotEmpty(),
+        enter = fadeIn() + expandVertically()
+    ) {
+        LazyColumn {
+            items(newsList) { newsItem ->
+                NewsItem(newsItem) {
+                    onNewsClicked(newsItem.articleId)
+                }
+            }
+        }
+    }
 }

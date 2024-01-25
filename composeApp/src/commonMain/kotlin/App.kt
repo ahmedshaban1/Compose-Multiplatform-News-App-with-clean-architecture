@@ -23,11 +23,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.NavOptions
 import moe.tlaster.precompose.navigation.rememberNavigator
 import moe.tlaster.precompose.navigation.transition.NavTransition
 import navigation.Screen
@@ -63,7 +65,11 @@ fun App() {
                             exit = fadeOut() + shrinkVertically()
                         ) {
                             CreateAppBottomBar {
-                                navigator.navigate(route = it)
+                                navigator.navigate(
+                                    route = it, NavOptions(
+                                        launchSingleTop = true,
+                                    )
+                                )
                             }
                         }
 
@@ -82,7 +88,7 @@ fun CreateAppBottomBar(onItemSelected: (String) -> Unit) {
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .clip(androidx.compose.foundation.shape.CircleShape),
-        backgroundColor = Color.White
+        backgroundColor = Color.White,
     ) {
         bottomNavigationScreens.forEach { item ->
             BottomNavigationItem(selected = true,

@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
+    kotlin("plugin.serialization").version("1.9.22")
 }
 
 kotlin {
@@ -17,9 +18,7 @@ kotlin {
     }
 
     listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+        iosX64(), iosArm64(), iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
@@ -33,14 +32,17 @@ kotlin {
             implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.android)
+        }
+        iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
             implementation(compose.ui)
-            @OptIn(ExperimentalComposeLibrary::class)
-            implementation(compose.components.resources)
+            @OptIn(ExperimentalComposeLibrary::class) implementation(compose.components.resources)
             api(compose.foundation)
             api(compose.animation)
             api(libs.precompose)
@@ -48,6 +50,10 @@ kotlin {
             api(libs.tlaster.precompose.koin)
             api(libs.insert.koin.koin.core)
             api(libs.koin.compose)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.kamel.image)
         }
     }
 }
@@ -84,5 +90,8 @@ android {
     dependencies {
         debugImplementation(libs.compose.ui.tooling)
     }
+}
+dependencies {
+    implementation(libs.androidx.ui.tooling.preview.android)
 }
 
