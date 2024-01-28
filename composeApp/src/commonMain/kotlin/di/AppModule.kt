@@ -4,6 +4,7 @@ import data.news.data_source.NewsRemoteDataSource
 import data.news.data_source.NewsRemoteDataSourceImpl
 import data.news.repo.NewsRepository
 import data.news.repo.NewsRepositoryImpl
+import domain.GetCategoriesUseCase
 import domain.GetNewsUseCase
 import org.koin.dsl.module
 import screens.home.HomeViewModel
@@ -13,7 +14,10 @@ val appModule = module {
         GetNewsUseCase(get())
     }
     factory {
-        HomeViewModel(get())
+        GetCategoriesUseCase(get())
+    }
+    factory {
+        HomeViewModel(get(),get())
     }
     single<NewsRemoteDataSource> {
         NewsRemoteDataSourceImpl(get())
