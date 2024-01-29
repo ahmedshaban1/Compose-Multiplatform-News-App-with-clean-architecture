@@ -8,12 +8,18 @@ import model.GetNewsResponse
 
 interface NewsRemoteDataSource {
     suspend fun getNews(category: String): GetNewsResponse
+    suspend fun getSingleNews(title: String): GetNewsResponse
 }
 
 class NewsRemoteDataSourceImpl(private val httpClient: HttpClient) :
     NewsRemoteDataSource {
     override suspend fun getNews(category: String): GetNewsResponse {
         return httpClient.get("https://newsdata.io/api/1/news?apikey=$API_KEY&q=$category")
+            .body<GetNewsResponse>()
+    }
+
+    override suspend fun getSingleNews(title: String): GetNewsResponse {
+        return httpClient.get("https://newsdata.io/api/1/news?apikey=$API_KEY&qInTitle=\"$title\"")
             .body<GetNewsResponse>()
     }
 

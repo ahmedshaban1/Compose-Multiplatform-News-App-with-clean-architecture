@@ -1,5 +1,7 @@
 package di
 
+import com.ahmed.shaban.remote.requester.RequestHandler
+import com.ahmed.shaban.remote.requester.RequestHandlerImpl
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
@@ -19,5 +21,9 @@ val networkModule = module {
                 )
             }
         }
+    }
+
+    single<RequestHandler> {
+        RequestHandlerImpl()
     }
 }

@@ -30,7 +30,7 @@ import moe.tlaster.precompose.koin.koinViewModel
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = koinViewModel(HomeViewModel::class),
-    onNewsClicked: (String) -> Unit
+    onNewsClicked: (String, String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     NewsList(
@@ -48,7 +48,7 @@ fun NewsList(
     categories: List<String>,
     selectedCategory: String,
     onCategoryClicked: (String) -> Unit,
-    onNewsClicked: (String) -> Unit
+    onNewsClicked: (String, String) -> Unit
 ) {
     LazyColumn {
         item {
@@ -65,7 +65,7 @@ fun NewsList(
         }
         items(newsList) { newsItem ->
             NewsItem(newsItem) {
-                onNewsClicked(newsItem.articleId)
+                onNewsClicked(newsItem.articleId, newsItem.title)
             }
         }
     }

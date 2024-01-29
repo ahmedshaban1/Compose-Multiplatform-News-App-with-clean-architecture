@@ -1,11 +1,14 @@
 package data.news.repo
 
 import data.news.data_source.NewsRemoteDataSource
+import model.GetNewsResponse
 import model.NewsModel
 
 interface NewsRepository {
     suspend fun getNews(category: String): List<NewsModel>
     suspend fun getNewsCategories(): List<String>
+    suspend fun getSingleNews(title: String): List<NewsModel>
+
 }
 
 class NewsRepositoryImpl(private val remoteDataSource: NewsRemoteDataSource) :
@@ -28,6 +31,10 @@ class NewsRepositoryImpl(private val remoteDataSource: NewsRemoteDataSource) :
         "Video",
         "World"
     )
+
+    override suspend fun getSingleNews(title: String): List<NewsModel> {
+        return remoteDataSource.getSingleNews(title).results
+    }
 
 }
 

@@ -3,7 +3,9 @@ package navigation
 import androidx.compose.runtime.Composable
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
+import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.transition.NavTransition
+import navigation.Constants.TITLE
 import screens.details.DetailsScreen
 import screens.favourite.FavouriteScreen
 import screens.home.HomeScreen
@@ -19,8 +21,8 @@ fun SetupNavigation(navigator: Navigator) {
             route = Screen.Home.route,
             navTransition = NavTransition(),
         ) {
-            HomeScreen {
-                navigator.navigate(Screen.Details.route)
+            HomeScreen { id, title ->
+                navigator.navigate(Screen.Details.getFullRoute(id, title))
             }
         }
         scene(
@@ -34,7 +36,12 @@ fun SetupNavigation(navigator: Navigator) {
             route = Screen.Details.route,
             navTransition = NavTransition(),
         ) {
-            DetailsScreen{
+            val id = it.pathMap[Constants.ID] ?: ""
+            val title = it.pathMap[(TITLE)] ?: ""
+            DetailsScreen(
+                id,
+                title
+            ) {
                 navigator.goBack()
             }
         }

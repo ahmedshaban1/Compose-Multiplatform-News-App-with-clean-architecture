@@ -5,11 +5,23 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.ui.graphics.vector.ImageVector
+import navigation.Constants.ID
+import navigation.Constants.TITLE
 
 sealed class Screen(val route: String) {
     data object Home : Screen("/home")
     data object Favourite : Screen("/favourite")
-    data object Details : Screen("/details")
+    data object Details :
+        Screen("/details/{$ID}/{$TITLE}") {
+        fun getFullRoute(id: String, title: String): String {
+            return "/details/$id/$title"
+        }
+    }
+}
+
+object Constants {
+    const val ID = "id"
+    const val TITLE = "title"
 }
 
 data class BottomNavigationModel(
@@ -18,9 +30,7 @@ data class BottomNavigationModel(
 
 val bottomNavigationScreens = listOf(
     BottomNavigationModel(
-        screen = Screen.Home,
-        title = "Home",
-        icon = Icons.Default.Home
+        screen = Screen.Home, title = "Home", icon = Icons.Default.Home
     ), BottomNavigationModel(
         screen = Screen.Favourite,
         title = "Favourite",
