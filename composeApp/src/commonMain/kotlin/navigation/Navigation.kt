@@ -3,11 +3,10 @@ package navigation
 import androidx.compose.runtime.Composable
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.transition.NavTransition
 import navigation.Constants.TITLE
 import screens.details.DetailsScreen
-import screens.favourite.FavouriteScreen
+import screens.favourite.SearchScreen
 import screens.home.HomeScreen
 
 @Composable
@@ -26,10 +25,10 @@ fun SetupNavigation(navigator: Navigator) {
             }
         }
         scene(
-            route = Screen.Favourite.route,
+            route = Screen.Search.route,
             navTransition = NavTransition(),
         ) {
-            FavouriteScreen()
+            SearchScreen()
         }
 
         scene(

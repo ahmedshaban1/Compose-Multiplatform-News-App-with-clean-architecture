@@ -1,4 +1,4 @@
-package com.ahmed.shaban.remote.requester
+package remote.requester
 
 import com.ahmed.shaban.remote.ResultWrapper
 

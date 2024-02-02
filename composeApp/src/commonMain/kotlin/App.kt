@@ -64,7 +64,7 @@ fun App() {
                             enter = fadeIn() + expandVertically(),
                             exit = fadeOut() + shrinkVertically()
                         ) {
-                            CreateAppBottomBar {
+                            CreateAppBottomBar(currentRoute) {
                                 navigator.navigate(
                                     route = it, NavOptions(
                                         launchSingleTop = true,
@@ -83,7 +83,10 @@ fun App() {
 }
 
 @Composable
-fun CreateAppBottomBar(onItemSelected: (String) -> Unit) {
+fun CreateAppBottomBar(
+    currentRoute: String,
+    onItemSelected: (String) -> Unit
+) {
     BottomNavigation(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -91,12 +94,16 @@ fun CreateAppBottomBar(onItemSelected: (String) -> Unit) {
         backgroundColor = Color.White,
     ) {
         bottomNavigationScreens.forEach { item ->
-            BottomNavigationItem(selected = true,
+            val selected = currentRoute == item.screen.route
+            BottomNavigationItem(selected = selected,
                 label = { Text(item.title) },
                 onClick = { onItemSelected(item.screen.route) },
                 icon = {
                     Icon(
-                        imageVector = item.icon, contentDescription = item.title
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        tint = if (selected) Color.Black else
+                            Color.Gray
                     )
                 })
         }

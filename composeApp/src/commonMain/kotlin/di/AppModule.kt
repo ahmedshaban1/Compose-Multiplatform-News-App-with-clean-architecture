@@ -9,6 +9,7 @@ import domain.GetNewsUseCase
 import domain.GetSingleNewsUseCase
 import org.koin.dsl.module
 import screens.details.DetailsViewModel
+import screens.favourite.SearchViewModel
 import screens.home.HomeViewModel
 
 val appModule = module {
@@ -23,6 +24,9 @@ val appModule = module {
     }
     factory {
         HomeViewModel(get(),get())
+    }
+    factory {
+        SearchViewModel(get())
     }
     factory {
         DetailsViewModel(get())

@@ -43,6 +43,17 @@ data class NewsModel(
     val title: String
 ) {
     fun getCreator(): String {
-        return creator?.joinToString(",") ?: ""
+        return creator?.joinToString(",") ?: "N/A"
+    }
+
+    fun generateDummyContent(): String {
+        val text = StringBuilder()
+        repeat(50){
+            text.append(content)
+            text.append(" ")
+            text.append(content)
+            text.append("\n")
+        }
+        return text.toString()
     }
 }

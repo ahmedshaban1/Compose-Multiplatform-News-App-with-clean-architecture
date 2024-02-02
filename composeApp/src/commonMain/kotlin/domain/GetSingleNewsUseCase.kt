@@ -2,10 +2,9 @@ package domain
 
 import com.ahmed.shaban.remote.Resource
 import com.ahmed.shaban.remote.ResultWrapper
-import com.ahmed.shaban.remote.requester.RequestHandler
+import remote.requester.RequestHandler
 import data.news.repo.NewsRepository
 import kotlinx.coroutines.flow.flow
-import model.NewsModel
 
 class GetSingleNewsUseCase(
     private val repository: NewsRepository,

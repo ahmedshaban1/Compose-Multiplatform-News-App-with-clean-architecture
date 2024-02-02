@@ -7,6 +7,7 @@ import com.ahmed.shaban.remote.errorhandling.ErrorCodes.ERROR_TIME_OUT
 import com.ahmed.shaban.remote.errorhandling.ErrorCodes.GENERIC_ERROR
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.TimeoutCancellationException
+import remote.requester.RequestHandler
 
 class RequestHandlerImpl : RequestHandler {
     override suspend fun <T> makeApiRequest(
