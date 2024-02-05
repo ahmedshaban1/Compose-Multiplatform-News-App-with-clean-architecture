@@ -28,7 +28,9 @@ fun SetupNavigation(navigator: Navigator) {
             route = Screen.Search.route,
             navTransition = NavTransition(),
         ) {
-            SearchScreen()
+            SearchScreen { id, title ->
+                navigator.navigate(Screen.Details.getFullRoute(id, title))
+            }
         }
 
         scene(

@@ -25,6 +25,7 @@ import screens.home.NewsList
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel(SearchViewModel::class),
+    onNewsClicked: (String, String) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     Scaffold {
@@ -44,7 +45,7 @@ fun SearchScreen(
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(state.searchResults) { newsItem ->
                             NewsItem(newsItem) {
-                                //onNewsClicked(newsItem.articleId, newsItem.title)
+                                onNewsClicked(newsItem.articleId, newsItem.title)
                             }
                         }
                     }
