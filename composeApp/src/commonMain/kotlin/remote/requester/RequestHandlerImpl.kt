@@ -1,12 +1,15 @@
 package com.ahmed.shaban.remote.requester
 
-import com.ahmed.shaban.remote.ResultWrapper
+import remote.ResultWrapper
 import com.ahmed.shaban.remote.errorhandling.ErrorCodes
 import com.ahmed.shaban.remote.errorhandling.ErrorCodes.CONNECTION_ERROR
 import com.ahmed.shaban.remote.errorhandling.ErrorCodes.ERROR_TIME_OUT
 import com.ahmed.shaban.remote.errorhandling.ErrorCodes.GENERIC_ERROR
+import io.ktor.client.plugins.ClientRequestException
+import io.ktor.client.plugins.ServerResponseException
 import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.serialization.SerializationException
 import remote.requester.RequestHandler
 
 class RequestHandlerImpl : RequestHandler {
@@ -19,26 +22,31 @@ class RequestHandlerImpl : RequestHandler {
             } ?: kotlin.run {
                 ResultWrapper.GenericError(ErrorCodes.NO_DATA_FOUND)
             }
-        } catch (throwable: Throwable) {
-            throwable.printStackTrace()
-            when (throwable) {
-                is TimeoutCancellationException -> {
-                    ResultWrapper.GenericError(ERROR_TIME_OUT)
-                }
-                is IOException -> {
-                    ResultWrapper.GenericError(
-                        CONNECTION_ERROR
-                    )
-                }
-               /* is HttpException -> {
-                    ResultWrapper.GenericError(
-                        errorCode = throwable.response()?.code() ?: GENERIC_ERROR
-                    )
-                }*/
-                else -> {
-                    ResultWrapper.GenericError(GENERIC_ERROR)
-                }
-            }
+        } catch (e: ClientRequestException) {
+            println(e.response.status.toString())
+            ResultWrapper.GenericError(
+                CONNECTION_ERROR
+            )
+        } catch (e: ServerResponseException) {
+            println(e.response.status.toString())
+            ResultWrapper.GenericError(
+                CONNECTION_ERROR
+            )
+        } catch (e: IOException) {
+            println(e.toString())
+            ResultWrapper.GenericError(
+                CONNECTION_ERROR
+            )
+        } catch (e: SerializationException) {
+            println(e.toString())
+            ResultWrapper.GenericError(
+                CONNECTION_ERROR
+            )
+        }catch (e:Exception){
+            println(e.toString())
+            ResultWrapper.GenericError(
+                CONNECTION_ERROR
+            )
         }
     }
 }

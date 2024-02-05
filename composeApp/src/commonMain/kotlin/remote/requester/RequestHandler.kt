@@ -1,6 +1,6 @@
 package remote.requester
 
-import com.ahmed.shaban.remote.ResultWrapper
+import remote.ResultWrapper
 
 interface RequestHandler {
     suspend fun <T> makeApiRequest(

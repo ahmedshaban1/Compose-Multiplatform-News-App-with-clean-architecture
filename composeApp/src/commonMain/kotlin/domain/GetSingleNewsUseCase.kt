@@ -1,7 +1,7 @@
 package domain
 
 import com.ahmed.shaban.remote.Resource
-import com.ahmed.shaban.remote.ResultWrapper
+import remote.ResultWrapper
 import remote.requester.RequestHandler
 import data.news.repo.NewsRepository
 import kotlinx.coroutines.flow.flow

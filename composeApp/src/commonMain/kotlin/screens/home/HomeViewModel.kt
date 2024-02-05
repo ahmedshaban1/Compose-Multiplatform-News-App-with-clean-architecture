@@ -1,9 +1,11 @@
 package screens.home
 
+import com.ahmed.shaban.remote.Resource
 import domain.GetCategoriesUseCase
 import domain.GetNewsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import model.NewsModel
@@ -27,11 +29,26 @@ class HomeViewModel(
         viewModelScope.launch {
             val cats = getCategoriesUseCase()
             _state.update {
-                State(
-                    getNewsUseCase(cats[0]),
-                    selectedCategory = cats[0],
+                it.copy(
                     categories = cats
                 )
+            }
+            getNews(cats.first())
+        }
+    }
+
+   private suspend fun getNews(category:String){
+        getNewsUseCase(category).collectLatest {response->
+            when(response){
+                is Resource.Error -> {}
+                is Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            news=response.data?: listOf(),
+                            selectedCategory = category,
+                        )
+                    }
+                }
             }
         }
     }
@@ -44,11 +61,7 @@ class HomeViewModel(
                     news = listOf()
                 )
             }
-            _state.update {
-                it.copy(
-                    news = getNewsUseCase(selectedCategory)
-                )
-            }
+            getNews(selectedCategory)
         }
     }
 }

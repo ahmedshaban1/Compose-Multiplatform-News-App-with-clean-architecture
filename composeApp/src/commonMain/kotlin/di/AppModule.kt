@@ -32,7 +32,7 @@ val appModule = module {
         DetailsViewModel(get())
     }
     single<NewsRemoteDataSource> {
-        NewsRemoteDataSourceImpl(get())
+        NewsRemoteDataSourceImpl(get(), get())
     }
     single<NewsRepository> {
         NewsRepositoryImpl(get())

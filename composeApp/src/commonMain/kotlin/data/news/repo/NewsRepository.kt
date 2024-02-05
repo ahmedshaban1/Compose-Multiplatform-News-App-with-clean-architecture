@@ -3,9 +3,10 @@ package data.news.repo
 import data.news.data_source.NewsRemoteDataSource
 import model.GetNewsResponse
 import model.NewsModel
+import remote.ResultWrapper
 
 interface NewsRepository {
-    suspend fun getNews(category: String): List<NewsModel>
+    suspend fun getNews(category: String): ResultWrapper<GetNewsResponse>
     suspend fun getNewsCategories(): List<String>
     suspend fun getSingleNews(title: String): List<NewsModel>
 
@@ -13,7 +14,7 @@ interface NewsRepository {
 
 class NewsRepositoryImpl(private val remoteDataSource: NewsRemoteDataSource) :
     NewsRepository {
-    override suspend fun getNews(category: String) = remoteDataSource.getNews(category).results
+    override suspend fun getNews(category: String) = remoteDataSource.getNews(category)
 
     override suspend fun getNewsCategories() = listOf(
         "all",
