@@ -18,8 +18,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import common_ui.NewsItem
+import common_ui.ShowError
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import screens.home.CenterLoading
 import screens.home.NewsList
 
 @Composable
@@ -37,6 +39,14 @@ fun SearchScreen(
                     viewModel.updateQuery(it)
                 })
             Spacer(Modifier.height(16.dp))
+            if (state.isLoading){
+                CenterLoading()
+            }
+            if (state.errorMessage.isNotEmpty()){
+                ShowError(state.errorMessage){
+                    viewModel.removeErrorMessage()
+                }
+            }
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -51,6 +61,7 @@ fun SearchScreen(
                     }
                 }
             }
+
         }
     }
 }

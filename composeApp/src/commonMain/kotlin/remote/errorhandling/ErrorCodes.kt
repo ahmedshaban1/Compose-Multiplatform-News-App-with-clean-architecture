@@ -1,4 +1,4 @@
-package com.ahmed.shaban.remote.errorhandling
+package remote.errorhandling
 
 object ErrorCodes {
     const val NO_DATA_FOUND = 404

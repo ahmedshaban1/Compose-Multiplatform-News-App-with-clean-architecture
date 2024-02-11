@@ -1,15 +1,12 @@
 package com.ahmed.shaban.remote.requester
 
-import remote.ResultWrapper
-import com.ahmed.shaban.remote.errorhandling.ErrorCodes
-import com.ahmed.shaban.remote.errorhandling.ErrorCodes.CONNECTION_ERROR
-import com.ahmed.shaban.remote.errorhandling.ErrorCodes.ERROR_TIME_OUT
-import com.ahmed.shaban.remote.errorhandling.ErrorCodes.GENERIC_ERROR
+import remote.errorhandling.ErrorCodes
+import remote.errorhandling.ErrorCodes.CONNECTION_ERROR
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.serialization.SerializationException
+import remote.ResultWrapper
 import remote.requester.RequestHandler
 
 class RequestHandlerImpl : RequestHandler {
@@ -42,7 +39,7 @@ class RequestHandlerImpl : RequestHandler {
             ResultWrapper.GenericError(
                 CONNECTION_ERROR
             )
-        }catch (e:Exception){
+        } catch (e: Exception) {
             println(e.toString())
             ResultWrapper.GenericError(
                 CONNECTION_ERROR

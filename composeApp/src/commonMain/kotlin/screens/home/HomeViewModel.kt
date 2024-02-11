@@ -15,12 +15,14 @@ import moe.tlaster.precompose.viewmodel.viewModelScope
 data class State(
     val news: List<NewsModel> = listOf(),
     val categories: List<String> = listOf(),
-    val selectedCategory: String = ""
+    val selectedCategory: String = "",
+    val isLoading: Boolean = false,
+    val errorMessage: String = ""
 )
 
 class HomeViewModel(
     private val getNewsUseCase: GetNewsUseCase,
-    private val getCategoriesUseCase: GetCategoriesUseCase
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : ViewModel() {
     private val _state = MutableStateFlow(State())
     val state = _state.asStateFlow()
@@ -37,15 +39,25 @@ class HomeViewModel(
         }
     }
 
-   private suspend fun getNews(category:String){
-        getNewsUseCase(category).collectLatest {response->
-            when(response){
-                is Resource.Error -> {}
+    private suspend fun getNews(category: String) {
+        showLoading()
+        getNewsUseCase(category).collectLatest { response ->
+            when (response) {
+                is Resource.Error -> {
+                    _state.update {
+                        it.copy(
+                            errorMessage = "Something went wrong , please try again",
+                            isLoading = false
+                        )
+                    }
+                }
+
                 is Resource.Success -> {
                     _state.update {
                         it.copy(
-                            news=response.data?: listOf(),
+                            news = response.data ?: listOf(),
                             selectedCategory = category,
+                            isLoading = false
                         )
                     }
                 }
@@ -62,6 +74,18 @@ class HomeViewModel(
                 )
             }
             getNews(selectedCategory)
+        }
+    }
+
+    private fun showLoading() {
+        _state.update {
+            it.copy(isLoading = true)
+        }
+    }
+
+    fun removeErrorMessage() {
+        _state.update {
+            it.copy(errorMessage = "")
         }
     }
 }
