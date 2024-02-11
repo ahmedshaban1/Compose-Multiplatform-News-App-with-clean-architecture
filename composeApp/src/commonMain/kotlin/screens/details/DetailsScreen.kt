@@ -22,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import common_ui.ShowError
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import moe.tlaster.precompose.flow.collectAsStateWithLifecycle
 import moe.tlaster.precompose.koin.koinViewModel
+import screens.home.CenterLoading
 
 @Composable
 fun DetailsScreen(
@@ -44,6 +46,15 @@ fun DetailsScreen(
             state = scroll,
         )
     ) {
+        if (state.isLoading){
+            CenterLoading()
+        }
+        if (state.message.isNotEmpty()){
+            ShowError(state.message){
+                viewModel.removeErrorMessage()
+                onNavigateUp()
+            }
+        }
         state.singleNews?.let { newsModel ->
             KamelImage(
                 asyncPainterResource(newsModel.imageUrl ?: ""),

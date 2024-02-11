@@ -11,7 +11,12 @@ import model.NewsModel
 import moe.tlaster.precompose.viewmodel.ViewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
-data class State(val singleNews: NewsModel? = null)
+data class State(
+    val singleNews: NewsModel? = null,
+    val isLoading: Boolean = false,
+    val message: String = ""
+)
+
 class DetailsViewModel(
     private val getSingleNewsUseCase: GetSingleNewsUseCase
 ) : ViewModel() {
@@ -20,9 +25,17 @@ class DetailsViewModel(
 
     fun getSingleNews(id: String, title: String) {
         viewModelScope.launch {
-            getSingleNewsUseCase(title, id).collectLatest {results->
-                when(results){
-                    is Resource.Error -> {}
+            _state.update {
+                State(isLoading = true)
+            }
+            getSingleNewsUseCase(title, id).collectLatest { results ->
+                when (results) {
+                    is Resource.Error -> {
+                        _state.update {
+                            State(message = "Something went wrong, please try again")
+                        }
+                    }
+
                     is Resource.Success -> {
                         _state.update {
                             State(results.data)
@@ -30,6 +43,12 @@ class DetailsViewModel(
                     }
                 }
             }
+        }
+    }
+
+    fun removeErrorMessage() {
+        _state.update {
+            State()
         }
     }
 }
